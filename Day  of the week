@@ -1,0 +1,34 @@
+class Solution:
+    def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
+        # Days in month for normal year
+        days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        
+        days_of_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+        # Jan 1, 1971 was Friday
+        total_days = 0
+
+        # Add days for years
+        for y in range(1971, year):
+            if self.is_leap_year(y):
+                total_days += 366
+            else:
+                total_days += 365
+
+        # Add days for months
+        for m in range(1, month):
+            if m == 2 and self.is_leap_year(year):
+                total_days += 29
+            else:
+                total_days += days_in_month[m - 1]
+
+        # Add days in current month
+        total_days += day - 1
+
+        # Calculate day of week
+        day_index = (5 + total_days) % 7
+
+        return days_of_week[day_index]
+
+    def is_leap_year(self, year):
+        return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)

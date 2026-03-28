@@ -1,0 +1,18 @@
+from functools import cache
+
+class Solution:
+    @cache
+    def numDistinct(self, s: str, t: str) -> int:
+        total = 0
+
+        if len(t) == 1:
+            for letter in s:
+                if letter == t[0]:
+                    total += 1
+            return total
+
+        for idx in range(len(s)-len(t)+1):
+            if s[idx] == t[0]:
+                total += self.numDistinct(s[idx+1:], t[1:])
+
+        return total
